@@ -18,7 +18,8 @@ def get_parcels():
                         'id', id,
                         'object_rid', object_rid,
                         'tex', tex,
-                        'supf', supf
+                        'supf', supf,
+                        'siren', siren
                     )
                 )
             ), '[]'::json)
@@ -37,7 +38,8 @@ def get_parcel(parcel_id: int):
             'id', id,
             'object_rid', object_rid,
             'tex', tex,
-            'supf', supf
+            'supf', supf,
+            'siren', siren
         )
         FROM parcels
         WHERE id = :parcel_id;
@@ -45,11 +47,3 @@ def get_parcel(parcel_id: int):
     with engine.connect() as conn:
         result = conn.execute(query, {"parcel_id": parcel_id}).scalar()
     return result
-
-
-@router.get("/test-db")
-def test_db():
-    with engine.connect() as conn:
-        result = conn.execute(text("SELECT COUNT(*) FROM parcels"))
-        count = result.scalar()
-    return {"parcels_count": count}
