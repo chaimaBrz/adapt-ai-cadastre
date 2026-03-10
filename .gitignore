@@ -1,0 +1,11 @@
+backend/venv/
+frontend/node_modules/
+node_modules/
+data/dep02/
+*.gpkg
+*.geojson
+*.sql
+__pycache__/
+*.pyc
+.env
+dist/
