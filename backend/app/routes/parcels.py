@@ -18,12 +18,17 @@ def get_sirene_data(siren: str):
 
     try:
         response = requests.get(url, headers=headers, timeout=10)
+        print("STATUT INSEE =", response.status_code)
+        print("REPONSE INSEE =", response.text)
+
         if response.status_code == 200:
             return response.json()
-        return None
-    except Exception:
+
         return None
 
+    except Exception as e:
+        print("ERREUR INSEE =", str(e))
+        return None
 
 @router.get("/parcels")
 def get_parcels():
