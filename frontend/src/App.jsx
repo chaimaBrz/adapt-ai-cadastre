@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, GeoJSON, useMap } from "react-leaflet";
 
+// Centre la carte automatiquement sur la parcelle trouvée lors d'une recherche
 function ZoomToParcel({ center }) {
   const map = useMap();
 
@@ -23,6 +24,7 @@ function App() {
   const [searchError, setSearchError] = useState("");
   const [searchCenter, setSearchCenter] = useState(null);
 
+  // Charge toutes les parcelles au démarrage pour les afficher sur la carte
   useEffect(() => {
     fetch("http://127.0.0.1:8000/parcels")
       .then((response) => response.json())
@@ -74,7 +76,7 @@ function App() {
       setLoadingParcel(false);
     }
   };
-
+  // Recherche une parcelle par ID, Object RID ou SIREN
   const handleSearch = async () => {
     const value = searchValue.trim();
 
@@ -126,7 +128,7 @@ function App() {
       setLoadingParcel(false);
     }
   };
-
+  // Réinitialise la recherche et l'affichage des détails
   const resetSearch = () => {
     setSearchValue("");
     setSearchError("");
@@ -146,6 +148,7 @@ function App() {
     };
   };
 
+  // Déclenche le chargement des détails lorsqu'une parcelle est cliquée
   const onEachParcel = (feature, layer) => {
     layer.on({
       click: () => {

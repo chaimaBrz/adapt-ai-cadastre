@@ -6,7 +6,7 @@ import requests
 
 router = APIRouter()
 
-
+# Appelle l'API SIRENE de l'INSEE à partir d'un numéro SIREN
 def get_sirene_data(siren: str):
     if not siren:
         return None
@@ -30,6 +30,8 @@ def get_sirene_data(siren: str):
         print("ERREUR INSEE =", str(e))
         return None
 
+
+# Retourne toutes les parcelles au format GeoJSON pour l'affichage sur la carte
 @router.get("/parcels")
 def get_parcels():
     query = text("""
@@ -54,7 +56,7 @@ def get_parcels():
         result = conn.execute(query).scalar()
     return result
 
-
+# Retourne les informations principales d'une parcelle à partir de son identifiant
 @router.get("/parcels/{parcel_id}")
 def get_parcel(parcel_id: int):
     query = text("""
@@ -72,6 +74,8 @@ def get_parcel(parcel_id: int):
     return result
 
 
+
+# Retourne les informations du propriétaire liées à une parcelle
 @router.get("/parcels/{parcel_id}/owner")
 def get_parcel_owner(parcel_id: int):
     query = text("""
@@ -89,6 +93,7 @@ def get_parcel_owner(parcel_id: int):
     return result
 
 
+# Retourne les informations SIRENE enrichies à partir du SIREN du propriétaire
 @router.get("/parcels/{parcel_id}/sirene")
 def get_parcel_sirene(parcel_id: int):
     query = text("""
@@ -124,6 +129,7 @@ def get_parcel_sirene(parcel_id: int):
     }
 
 
+# Retourne toutes les informations utiles d'une parcelle en une seule réponse
 @router.get("/parcels/{parcel_id}/full-details")
 def get_parcel_full_details(parcel_id: int):
     query = text("""
